@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elapsed Wage Stopwatch</title>
+    <style>
+        :root {
+            --color: black;
+            --bgcolor: white;
+            --lightcolor: grey;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --color: white;
+                --bgcolor: #202020;
+                --lightcolor: lightgray;
+            }
+        }
+
+        html {
+            display: table;
+            margin: auto;
+        }
+        html, body {
+            height: 100%;
+        }
+        body {
+            font-family: sans-serif;
+            font-size: larger;
+            color: var(--color);
+            background-color: var(--bgcolor);
+            padding-top: 10px;
+            display: table-cell;
+            vertical-align: top;
+        }
+        .label {
+            color: var(--lightcolor);
+            text-align: right;
+        }
+        input {
+            border: none;
+            color: var(--color);
+            font-size: large;
+            width: auto;
+            outline: none;
+            padding-left: 0;
+            background-color: inherit;
+        }
+        input:placeholder-shown {
+            color: coral;
+            text-decoration: underline;
+        }
+        input::placeholder {
+            color: var(--color);
+        }
+        table {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #time {
+            margin-left: 5px;
+            font-size: x-small;
+        }
+        h1 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Elapsed Wage Stopwatch</h1>
+    <table>
+        <tr><td class="label">Elapsed earnings:</td><td id="money"></td> <td id="time"></tr>
+        <tr><td class="label">Hourly earnings:</td><td>$<input placeholder="0.00" size="1"></td></tr>
+        <tr><td class="label">Minutely earnings:</td><td id="minute"></td></tr>
+        <tr><td class="label">Secondly earnings:</td><td id="seconds"></td></tr>
+    </table>
+    <script>
+        const counter = document.getElementById('money');
+        const min = document.getElementById('minute');
+        const sec = document.getElementById('seconds');
+        const time = document.getElementById('time');
+        const start = new Date();
+        
+        setInterval(() => {
+            let now = new Date();
+            let diff = now - start;
+            
+            let wage = document.getElementsByTagName('input')[0].value;
+            
+            let minutely = wage / 60;
+            min.innerText = "$" + minutely.toFixed(3);
+            
+            let secondly = minutely / 60;
+            sec.innerText = "$" + secondly.toFixed(3);
+
+            let money = (secondly / 1000) * diff;
+            counter.innerText = "$" + money.toFixed(3);
+
+            let secs = Math.floor( diff / 1000 % 60 );
+            let mins = Math.floor( diff / 1000 / 60 % 60);
+            let hours = Math.floor(diff / 1000 / 60 / 60);
+            time.innerText = hours.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false}) + ":" + mins.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false}) + ":" + secs.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false});
+        }, 66)
+    </script>
+</body>
+</html>
