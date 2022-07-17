@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Elapsed Wage Stopwatch</title>
     <style>
         :root {
@@ -11,6 +9,7 @@
             --bgcolor: white;
             --lightcolor: grey;
         }
+
         @media (prefers-color-scheme: dark) {
             :root {
                 --color: white;
@@ -23,9 +22,12 @@
             display: table;
             margin: auto;
         }
-        html, body {
+
+        html,
+        body {
             height: 100%;
         }
+
         body {
             font-family: sans-serif;
             font-size: larger;
@@ -35,74 +37,172 @@
             display: table-cell;
             vertical-align: top;
         }
+
         .label {
             color: var(--lightcolor);
             text-align: right;
         }
-        input {
+
+        input, #money {
             border: none;
             color: var(--color);
-            font-size: large;
+            font-size: x-large;
+            font-family: monospace;
             width: auto;
             outline: none;
             padding-left: 0;
             background-color: inherit;
+            text-decoration: underline coral;
+            size: 0px;
         }
-        input:placeholder-shown {
-            color: coral;
-            text-decoration: underline;
+
+        #money {
+            text-decoration: none;
         }
+
         input::placeholder {
             color: var(--color);
         }
+
         table {
             margin-left: auto;
             margin-right: auto;
         }
+
         #time {
             margin-left: 5px;
             font-size: x-small;
         }
+
         h1 {
             text-align: center;
         }
     </style>
 </head>
+
 <body>
     <h1>Elapsed Wage Stopwatch</h1>
     <table>
-        <tr><td class="label">Elapsed earnings:</td><td id="money"></td> <td id="time"></tr>
-        <tr><td class="label">Hourly earnings:</td><td>$<input placeholder="0.00" size="1"></td></tr>
-        <tr><td class="label">Minutely earnings:</td><td id="minute"></td></tr>
-        <tr><td class="label">Secondly earnings:</td><td id="seconds"></td></tr>
+        <tbody>
+            <tr>
+                <td class="label">Elapsed earnings:</td>
+                <td>$<span id="money"></span><span id="time"></span></td>
+            </tr>
+            <tr>
+                <td class="label">Hourly earnings:</td>
+                <td>$<input id="hour" placeholder="0.00"></td>
+            </tr>
+            <tr>
+                <td class="label">Minutely earnings:</td>
+                <td>$<input id="minute" placeholder="0.00"></td>
+            </tr>
+            <tr>
+                <td class="label">Secondly earnings:</td>
+                <td>$<input id="seconds" placeholder="0.00"></td>
+            </tr>
+            <tr>
+                <td class="label">Time to $1:</td>
+                <td><input id="ttd" placeholder="0.00">seconds</td>
+            </tr>
+            <tr>
+                <td class="label">Time to $10:</td>
+                <td><input id="ttt" placeholder="0.00">minutes</td>
+            </tr>
+            <tr>
+                <td class="label">Time to $100:</td>
+                <td><input id="tth" placeholder="0.00">hours</td>
+            </tr>
+        </tbody>
     </table>
     <script>
-        const counter = document.getElementById('money');
-        const min = document.getElementById('minute');
-        const sec = document.getElementById('seconds');
-        const time = document.getElementById('time');
+        const counter = document.getElementById('money'),
+                 hour = document.getElementById('hour'),
+                  min = document.getElementById('minute'),
+                  sec = document.getElementById('seconds'),
+                 time = document.getElementById('time'),
+                  ttd = document.getElementById('ttd'),
+                  ttt = document.getElementById('ttt'),
+                  tth = document.getElementById('tth');
         const start = new Date();
+        let diff; 
+        let hourly = 0, 
+          minutely = 0, 
+          secondly = 0, 
+          ttdollar = 0, 
+             ttten = 0, 
+         tthundred = 0;
+
+        hour.style.width = 4 + "ch";
+        min.style.width = 4 + "ch";
+        sec.style.width = 4 + "ch";
+        ttd.style.width = 4 + "ch";
+        ttt.style.width = 4 + "ch";
+        tth.style.width = 4 + "ch";
+
+        for (const input of document.getElementsByTagName('input')) {
+            input.addEventListener('input', () => {
+                switch (input.id) {
+                    case 'hour':
+                        hourly = parseFloat(input.value);
+                        break;
+                    case 'minute':
+                        hourly = input.value * 60;
+                        break;
+                    case 'seconds':
+                        hourly = input.value * 60 * 60;
+                        break;
+                    case 'ttd':
+                        hourly = 1 / input.value * 60 * 60;
+                        break;
+                    case 'ttt':
+                        hourly = 10 / input.value * 60;
+                        break;
+                    case 'tth':
+                        hourly = 100 / input.value;
+                        break;
+                    default:
+                        console.log('defaulted');
+                }
+                
+                minutely = hourly / 60;
+                secondly = minutely / 60;
+                ttdollar = 1 / hourly * 60 * 60;
+                ttten = ttdollar / 60 * 10;
+                tthundred = ttten * 10 / 60;
+
+                if (Number.isFinite(hourly) && Number.isFinite(ttdollar)) {
+                    if (input != hour) hour.value = hourly.toFixed(2);
+                    if (input != min) min.value = minutely.toFixed(2);
+                    if (input != sec) sec.value = secondly.toFixed(3);
+                    if (input != ttd) ttd.value = ttdollar.toFixed(2);
+                    if (input != ttt) ttt.value = ttten.toFixed(2);
+                    if (input != tth) tth.value = tthundred.toFixed(2);
+                    
+                    hour.style.width = hour.value.length + "ch";
+                    min.style.width = min.value.length + "ch";
+                    sec.style.width = sec.value.length + "ch";
+                    ttd.style.width = ttd.value.length + "ch";
+                    ttt.style.width = ttt.value.length + "ch";
+                    tth.style.width = tth.value.length + "ch";
+                }
+            });
+        }
         
+
         setInterval(() => {
-            let now = new Date();
-            let diff = now - start;
-            
-            let wage = document.getElementsByTagName('input')[0].value;
-            
-            let minutely = wage / 60;
-            min.innerText = "$" + minutely.toFixed(3);
-            
-            let secondly = minutely / 60;
-            sec.innerText = "$" + secondly.toFixed(3);
-
-            let money = (secondly / 1000) * diff;
-            counter.innerText = "$" + money.toFixed(3);
-
-            let secs = Math.floor( diff / 1000 % 60 );
-            let mins = Math.floor( diff / 1000 / 60 % 60);
+            diff = new Date() - start;
+            money = secondly * diff / 1000;
+            if (Number.isFinite(money)) {
+                counter.innerHTML = money.toFixed(3);
+            }
+            let secs = Math.floor(diff / 1000 % 60);
+            let mins = Math.floor(diff / 1000 / 60 % 60);
             let hours = Math.floor(diff / 1000 / 60 / 60);
-            time.innerText = hours.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false}) + ":" + mins.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false}) + ":" + secs.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false});
+            
+            time.innerText = hours.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false }) + ":" + mins.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false }) + ":" + secs.toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
         }, 66)
     </script>
+
 </body>
+
 </html>
