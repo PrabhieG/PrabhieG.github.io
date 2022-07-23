@@ -1,0 +1,33 @@
+#money {
+    text-decoration: none !important;
+}
+
+#time {
+    font-size: x-small;
+    margin-left: 5px;
+}
+
+.label {
+    color: var(--lightcolor);
+    text-align: right;
+}
+
+#money {
+    background-color: inherit;
+    border: none;
+    color: var(--color);
+    font-family: monospace;
+    font-size: x-large;
+    outline: none;
+    padding-left: 0;
+    text-decoration: underline var(--accentcolor);
+}
+
+input::placeholder {
+    color: var(--color);
+}
+
+table {
+    margin-left: auto;
+    margin-right: auto;
+}

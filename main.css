@@ -1,0 +1,108 @@
+:root {
+    --accentcolor: #f7bebe;
+    --lighteraccentcolor: #fae1e1;
+    --bgcolor: #FFF;
+    --color: #000;
+    --lightcolor: grey;
+    --lightercolor: lightgray;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bgcolor: #202020;
+        --color: #FFF;
+        --lightcolor: lightgray;
+        --lightercolor: #A9A9A9;
+    }
+}
+
+body {
+    background-color: var(--bgcolor);
+    color: var(--color);
+    display: table-cell;
+    font-family: sans-serif;
+    font-size: larger;
+    padding-top: 10px;
+    vertical-align: top;
+}
+
+p, h1 {
+    text-align: center;
+}
+
+html {
+    display: table;
+    margin: auto;
+}
+
+html, body {
+    height: 100%;
+}
+
+a {
+    color: var(--accentcolor);
+}
+
+a:active {
+    color: var(--lighteraccentcolor);
+}
+
+a:hover, input:hover {
+    text-decoration: none;
+}
+
+input {
+    background-color: inherit;
+    border: none;
+    color: var(--color);
+    font-family: monospace;
+    font-size: x-large;
+    outline: none;
+    padding-left: 0;
+    text-decoration: underline var(--accentcolor);
+}
+
+input::placeholder {
+    color: var(--lightercolor);
+}
+
+button {
+    background-color: var(--accentcolor);
+    border: 0;
+    border-radius: 46px;
+    margin: 2px;
+    padding: 5px 18px;
+}
+
+button:enabled:hover {
+    padding: 3px 16px;
+    border: 2px solid var(--color);
+}
+
+button:enabled:active {
+    padding: 2.5px 15.5px;
+    border: 2.5px solid var(--color);
+}
+
+button:disabled {
+    background-color: var(--lighteraccentcolor);
+}
+
+input[type=checkbox] {
+    display: none;
+}
+
+label {
+    color: grey;
+    padding: 3px 6px;
+    background-color: var(--accentcolor);
+    border-radius: 8px;
+    font-size: smaller;
+    margin: 2px;
+}
+
+input[type=checkbox]:checked + label {
+    color: #000;
+    border: 2px solid var(--color);
+    padding: 1px 4px;
+}
