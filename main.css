@@ -2,17 +2,26 @@
     --accentcolor: #f7bebe;
     --lighteraccentcolor: #fae1e1;
     --bgcolor: #FFF;
+    --lighterbgcolor: #F6F6F6; 
     --color: #000;
     --lightcolor: grey;
     --lightercolor: lightgray;
+    --bgcolorpd: #202020;
+    --colorpd: #FFF;
+    --lighterbgcolorpd: #303030;
+    --lightcolorpd: lightgray;
+    --lightercolorpd: #A9A9A9;
+    --prefers: light;
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --bgcolor: #202020;
-        --color: #FFF;
-        --lightcolor: lightgray;
-        --lightercolor: #A9A9A9;
+        --bgcolor: var(--bgcolorpd);
+        --color: var(--colorpd);
+        --lightcolor: var(--lightcolorpd);
+        --lightercolor: var(--lightercolorpd);
+        --lighterbgcolor: var(--lighterbgcolorpd);
+        --prefers: dark;
     }
 }
 
@@ -105,4 +114,9 @@ input[type=checkbox]:checked + label {
     color: #000;
     border: 2px solid var(--color);
     padding: 1px 4px;
+}
+
+code {
+    background-color: var(--lighterbgcolor);
+    border-radius: 2px;
 }
